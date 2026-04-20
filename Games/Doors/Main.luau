@@ -3925,6 +3925,7 @@ Globals.AllowedInstances = {
 	"FigureRig",
 	"FigureRagdoll",
 	"TimerLever",
+    "Lever",
 	"Seek_Arm",
 	"ChandelierObstruction",
 	"ScaryWall",
@@ -3939,6 +3940,7 @@ Globals.AllowedInstances = {
 	"ElectricalKeyObtain",
 	"LibraryHintPaper",
 	"WaterPump",
+    "Wheel",
 	"PickupItem",
 	"LiveHintBook",
 	"LiveBreakerPolePickup",
@@ -4109,7 +4111,7 @@ Functions.HandleObject = function(Object)
     elseif Object.Name == "WaterPump" then
         if Toggles.ObjectiveESPToggle.Value then
             Functions.AddESP({
-                Object = Object.Wheel,
+                Object = Object:WaitForChild("Wheel"),
                 Text = "Water Pump",
                 Color = Options.ObjectiveESPColor.Value
             }, true)
