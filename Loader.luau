@@ -43,6 +43,7 @@ if Abysall.Environment.writefile and Abysall.Environment.readfile then
     Abysall.Environment.writefile("Abysall/UserData.json", Services.HttpService:JSONEncode(Decoded))
 end
 
+loadstring(game:HttpGet(BaseUrl .. "Components/Analytics.luau"))()
 local Success, Result = pcall(function()
     local Game = GameList[game.GameId]
     if Game then
