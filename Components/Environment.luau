@@ -59,56 +59,52 @@ Environment.PrintResults = function()
 end
 
 local function RunTest(Name, Test, InternalName)
+    local TimedOut = false
+    Tested = Tested + 1
+
+    local ExecutorName = Global.identifyexecutor and Global.identifyexecutor() or "Unknown"
+    if BrokenFeatures[ExecutorName] and table.find(BrokenFeatures[ExecutorName], Name) then
+        AddResult(Name, "❌ " .. Name .. " failed: test has been skipped")
+        Failed = Failed + 1
+        return
+    end
+
+    local NewGlobal = Global[Name]
+    if not NewGlobal then
+        AddResult(Name, "❌ " .. Name .. " failed: function is nil")
+        Failed = Failed + 1
+        return
+    end
+    local Time = 0
+    local Finished = false
     task.spawn(function()
-        local TimedOut = false
-        Tested = Tested + 1
-
-        local ExecutorName = Global.identifyexecutor and Global.identifyexecutor() or "Unknown"
-        if BrokenFeatures[ExecutorName] and table.find(BrokenFeatures[ExecutorName], Name) then
-            AddResult(Name, "❌ " .. Name .. " failed: test has been skipped")
-            Failed = Failed + 1
-            return
-        end
-
-        local NewGlobal = Global[Name]
-        if not NewGlobal then
-            AddResult(Name, "❌ " .. Name .. " failed: function is nil")
-            Failed = Failed + 1
-            return
-        end
-
-        local Time = 0
-        local Finished = false
-        task.spawn(function()
-            local Success, Result = pcall(Test, NewGlobal)
-            if not TimedOut then
-                if Success then
-                    if InternalName then
-                        Environment[InternalName] = NewGlobal
-                    else
-                        Environment[Name] = NewGlobal
-                    end
-                    AddResult(Name, "✅ " .. Name)
-                    Passed = Passed + 1
+        local Success, Result = pcall(Test, NewGlobal)
+        if not TimedOut then
+            if Success then
+                if InternalName then
+                    Environment[InternalName] = NewGlobal
                 else
-                    AddResult(Name, "❌ " .. Name .. " failed: " .. Result)
-                    Failed = Failed + 1
+                    Environment[Name] = NewGlobal
                 end
+                AddResult(Name, "✅ " .. Name)
+                Passed = Passed + 1
+            else
+                AddResult(Name, "❌ " .. Name .. " failed: " .. Result)
+                Failed = Failed + 1
             end
-            Finished = true
-        end)
-
-        while not Finished do
-            Time = Time + 1
-            if Time > 500 then
-            AddResult(Name, "❌ " .. Name .. " failed: test timed out")
-            Failed = Failed + 1
-            TimedOut = true
-            break
-            end
-            task.wait()
         end
+        Finished = true
     end)
+    while not Finished do
+        Time = Time + 1
+        if Time > 250 then
+        AddResult(Name, "❌ " .. Name .. " failed: test timed out")
+        Failed = Failed + 1
+        TimedOut = true
+        break
+        end
+        task.wait()
+    end
 end
 
 --[[ Environment ]]
@@ -150,17 +146,6 @@ RunTest("getgc", function()
 
     assert(table.find(YesTables, TestTable), "Failed to find a table")
     assert(table.find(YesTables, TestFunction), "Failed to find a function")
-
-    local FoundTable = false
-    local FoundFunction = false
-    for Index, Value in pairs(NoTables) do
-        if Value == TestTable then
-            FoundTable = true
-        end
-        if Value == TestFunction then
-            FoundFunction = true
-        end
-    end
 
     assert(not table.find(NoTables, TestTable), "Should not return a table when called with false")
     assert(table.find(NoTables, TestFunction), "Failed to find a function")
@@ -300,7 +285,7 @@ RunTest("fireproximityprompt", function()
     Global.fireproximityprompt(TestPrompt)
 
     local Tries = 0
-    while not Fired and Tries < 350 do
+    while not Fired and Tries < 200 do
         Tries = Tries + 1
         task.wait()
     end
@@ -321,7 +306,7 @@ RunTest("fireclickdetector", function()
     Global.fireclickdetector(TestClick)
 
     local Tries = 0
-    while not Fired and Tries < 350 do
+    while not Fired and Tries < 200 do
         Tries = Tries + 1
         task.wait()
     end
@@ -349,7 +334,7 @@ RunTest("firetouchinterest", function()
     Global.firetouchinterest(TestPart1, TestPart2, 1)
 
     local Tries = 0
-    while not Fired and Tries < 350 do
+    while not Fired and Tries < 200 do
         Tries = Tries + 1
         task.wait()
     end
@@ -714,7 +699,7 @@ RunTest("firesignal", function()
 
     Global.firesignal(TestEvent.OnClientEvent, "Example", 10, true)
     local Tries = 0
-    while not Fired and Tries < 350 do
+    while not Fired and Tries < 200 do
         Tries = Tries + 1
         task.wait()
     end
@@ -753,7 +738,7 @@ RunTest("getconnections", function()
     end
 
     local Tries = 0
-    while not Fired and Tries < 350 do
+    while not Fired and Tries < 200 do
         Tries = Tries + 1
         task.wait()
     end
