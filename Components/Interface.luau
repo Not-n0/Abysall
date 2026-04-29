@@ -1,4 +1,5 @@
-local BaseUrl = "https://raw.githubusercontent.com/mstudio45/Obsidian/refs/heads/main/"
+local Library = (Abysall.UILibrary == "Linoria" and "LinoriaLib" or "Obsidian")
+local BaseUrl = "https://raw.githubusercontent.com/mstudio45/" .. Library .. "/refs/heads/main/"
 local AbysallUrl = "https://raw.githubusercontent.com/bocaj111004/Abysall/refs/heads/main/"
 
 return {
