@@ -30,34 +30,9 @@ local Functions = {}
 local LocalPlayer = Services.Players.LocalPlayer
 local RemotesFolder = Services.ReplicatedStorage:WaitForChild("RemotesFolder")
 
-local Loading = Library:CreateLoading({
-    Title = "Abysall Hub",
-    Icon = 0,
-    TotalSteps = 3
-})
- 
-Loading:SetMessage("Initialising...")
-Loading:SetDescription("Waiting for game to load...")
-Loading:SetCurrentStep(1)
-
-task.spawn(function()
-    task.wait(0.5)
-    Loading:ShowSidebarPage(true)
-    Loading.Sidebar:AddLabel("-- Developers --")
-    Loading.Sidebar:AddLabel("<font color='rgb(255, 230, 0)'>bocaj111004</font>")
-    Loading.Sidebar:AddLabel("<font color='rgb(255, 230, 0)'>feargeorge</font>")
-    Loading.Sidebar:AddLabel("<font color='rgb(255, 230, 0)'>thehuntersolo1</font>")
-    Loading.Sidebar:AddLabel("-- Community --")
-    Loading.Sidebar:AddLabel("<font color='rgb(0, 217, 255)'>https://discord.gg/q6pFJRSy9e</font>")
-end)
-
 while not LocalPlayer.Character do
     task.wait()
 end
-task.wait(1)
- 
-Loading:SetCurrentStep(2)
-Loading:SetDescription("Loading interface...")
 task.wait(1)
 
 local Window = Library:CreateWindow({
@@ -105,6 +80,14 @@ Container.Name = Abysall.ESPLibrary:GenerateRandomString()
 Container.Parent = GetHiddenContainer()
 Container.DisplayOrder = 32767
 Container.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+if not Library.Scheme then
+    Library.Scheme = setmetatable({}, {
+        __index = function(self, Name)
+            return Library[Name]
+        end
+    })
+end
 
 function NotificationLibrary:Notify(TitleText, Desc, Delay)
 	task.spawn(function()
@@ -222,7 +205,13 @@ Functions.CheckElevators = function()
 	if not Toggles.AutoJoinElevator.Value then
 		return
 	end
-	local TargetCharacter = Options.AutoJoinElevatorTarget.Value and Options.AutoJoinElevatorTarget.Value.Character
+	local TargetCharacter
+	if typeof(Options.AutoJoinElevatorTarget) == "Instance" then
+		TargetCharacter = Options.AutoJoinElevatorTarget.Value.Character
+	elseif typeof(Options.AutoJoinElevatorTarget) == "string" then
+		TargetCharacter = Services.Players:FindFirstChild(Options.AutoJoinElevatorTarget.Value).Character
+	end
+
 	for Index, Elevator in pairs(Services.Workspace.Lobby.LobbyElevators:GetChildren()) do
 		if TargetCharacter and Elevator and TargetCharacter:GetAttribute("InGameElevator") and Elevator:GetAttribute("ID") and Elevator:GetAttribute("ID") == TargetCharacter:GetAttribute("InGameElevator") then
 			TargetFound = true
@@ -327,8 +316,12 @@ Connections.BadgeAddedConnection = LocalPlayer.PlayerGui.MainUI.LobbyFrame.Achie
 end)
 
 Globals.LastBadgeChange = tick()
+Globals.LastElevatorCheck = tick()
 Connections.MainConnection = Services.RunService.Heartbeat:Connect(function()
-    Functions.CheckElevators()
+	if tick() - Globals.LastElevatorCheck > 0.25 then
+    	Functions.CheckElevators()
+		Globals.LastElevatorCheck = tick()
+	end
 
     if Toggles.CycleAchievements.Value and tick() - Globals.LastBadgeChange > Options.CycleAchievementsDelay.Value then
         local Badge = Globals.UnlockedBadges[math.random(1, #Globals.UnlockedBadges)]
@@ -360,10 +353,4 @@ Library:OnUnload(function()
 	getgenv().Abysall = nil
 end)
 
-task.wait(0.5)
-Loading:SetCurrentStep(3)
-Loading:SetDescription("Ready!")
-
-task.wait(1)
-Loading:Continue()
 Functions.Notify({Title = "Successfully loaded in " .. math.floor((tick() - LoadStart) * 1000) / 1000 .. " seconds."})
