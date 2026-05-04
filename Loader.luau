@@ -55,9 +55,7 @@ if Abysall.Environment.writefile and Abysall.Environment.readfile then
 end
 
 local function HashString(InputString)
-    local EncodingService = game:GetService("EncodingService")
-
-	local HashBuffer = EncodingService:ComputeStringHash(InputString, Enum.HashAlgorithm.Md5)
+	local HashBuffer = Services.EncodingService:ComputeStringHash(InputString, Enum.HashAlgorithm.Md5)
 	local HexString = ""
 	for Index = 1, #HashBuffer, 1 do
 		local Char = HashBuffer:sub(Index, Index)
