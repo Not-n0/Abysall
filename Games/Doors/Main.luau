@@ -3546,7 +3546,7 @@ Functions.HandleCharacter = function(NewCharacter)
 
     Connections.SHMFixer = RootPart:GetPropertyChangedSignal("Anchored"):Connect(function()
         task.wait()
-        if Floor == "Fools" and RootPart.Anchored and Character:GetAttribute("Hiding") ~= true thenaby
+        if Floor == "Fools" and RootPart.Anchored and Character:GetAttribute("Hiding") ~= true then
             RootPart.Anchored = false
         end
     end)
