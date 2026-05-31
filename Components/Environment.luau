@@ -596,13 +596,14 @@ RunTest("isnetworkowner", function()
     local Test2 = Services.Players.LocalPlayer.Character.HumanoidRootPart
     local TestPart
 
-    Test2.Anchored = true
+    
     for Index, Part in pairs(Services.Workspace:GetDescendants()) do
         if Part:IsA("BasePart") and Part.Anchored then
             TestPart = Part
             break
         end
     end
+    Test2.Anchored = true
 
     local IsOwned = Global.isnetworkowner(Test2)
     Test2.Anchored = false
