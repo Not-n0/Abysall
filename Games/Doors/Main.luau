@@ -1,4 +1,4 @@
-local LoadStart = tick()
+local LoadStart = tick() + 0.5
 Abysall.SavePath = "Doors/Game"
 
 local Library = Abysall.Interface.Library
@@ -967,15 +967,10 @@ Globals.UsedRandomCodes = {}
 Functions.GetRandomCode = function()
     local Code = Functions.GetLibraryCode()
     if Code then
-        local Result
-        while not Result or table.find(Globals.UsedRandomCodes, Result) do
-            local NewCode = Code:gsub("_", function()
-                return tostring(math.random(1, 10) - 1)
-            end)
-            Result = NewCode
-        end
-        table.insert(Globals.UsedRandomCodes, Result)
-        return Result
+        local NewCode = Code:gsub("_", function()
+            return tostring(math.random(1, 10) - 1)
+        end)
+        return NewCode
     end
 end
 
