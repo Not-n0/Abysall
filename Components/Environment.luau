@@ -6,6 +6,7 @@ local Passed = 0
 
 local BrokenFeatures = {
     ["Volcano"] = {"run_on_actor", "oth"},
+	["Madium"] = {"gethiddenproperty"},
     ["Solara"] = {"require"},
     ["Xeno"] = {"require"}
 }
