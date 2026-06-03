@@ -1,4 +1,4 @@
-local LoadStart = tick() + 0.5
+2local LoadStart = tick() + 0.5
 Abysall.SavePath = "Doors/Game"
 
 local Library = Abysall.Interface.Library
@@ -2921,7 +2921,7 @@ Abysall.ESPLibrary:SetTextOutlineTransparency(0)
 Abysall.ESPLibrary:SetRenderLimit(240)
 Abysall.ESPLibrary:SetFadeTime(0.25)
 Abysall.ESPLibrary:SetTextSize(18)
-Abysall.ESPLibrary:SetFont(Enum.Font.RobotoCondensed)
+Abysall.ESPLibrary:SetFont(Enum.Font.Highway)
 Abysall.ESPLibrary:SetTracers(false)
 Abysall.ESPLibrary:SetTracerSize(0.75)
 Abysall.ESPLibrary:SetTracerOrigin("Bottom")
