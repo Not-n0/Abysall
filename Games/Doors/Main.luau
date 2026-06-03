@@ -2864,7 +2864,7 @@ Groupboxes.Visuals_ESP_Settings:AddDropdown("ESPTextFont", {
         "Arimo",
         "ArimoBold",
         },
-    Default = 41
+    Default = 12
 })
 
 Groupboxes.Visuals_ESP_Settings:AddDivider()
