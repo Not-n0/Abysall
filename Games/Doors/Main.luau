@@ -5552,7 +5552,7 @@ end
 
 local LastFire = tick()
 Connections.AutoInteract = Services.RunService.Heartbeat:Connect(function()
-    if Toggles.AutoInteractToggle.Value and tick() - LastFire > 0.025 or Options.AutoInteractKeybind:GetState() and tick() - LastFire > 0.025 then
+    if Toggles.AutoInteractToggle.Value and tick() - LastFire > 0.035 or Options.AutoInteractKeybind:GetState() and tick() - LastFire > 0.035 then
         for Index, Prompt in (Objects.Prompts) do
            task.spawn(function()
                 if Prompt.Parent ~= nil and Prompt.Parent:IsA("BasePart") or Prompt.Parent ~= nil and Prompt.Parent:IsA("Model") then
