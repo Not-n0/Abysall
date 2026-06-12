@@ -1,3 +1,6 @@
+Abysall.Interface = loadstring(game:HttpGet(BaseUrl .. "Components/Interface.luau"))()
+Abysall.Analytics = loadstring(game:HttpGet(BaseUrl .. "Components/Analytics.luau"))()
+
 local LoadStart = tick()
 Abysall.SavePath = "Doors/Game"
 
@@ -112,7 +115,7 @@ local Entities = {
 	},
 	["MonumentEntity"] = {
 		Alias = "Monument",
-		NotifyMessage = { Title = "Entity 'Monument' has spawned.", Body = "It cannot move while you are looking at it." }
+		NotifyMessage = { Title = "Entity 'Monument' has spawned.", Body = "It can't move while you are looking at it." }
 	},
 	["JeffTheKiller"] = {
 		Alias = "Jeff the Killer",
@@ -209,6 +212,23 @@ local ItemNames = {
 	["Donut"]             = "Donut",
 	["Lotus"]             = "Lotus",
 	["BoxingGloves"]      = "Boxing Gloves"
+}
+
+local CutsceneNames = {
+    "Figure",
+    "FigureEnd",
+    "FigureHotelChase",
+    "FigureHotelEnd",
+    "FigureHotelFire",
+    "SeekIntroFools",
+    "SeekIntroHotel",
+    "SeekIntroMines",
+    "SeekIntroMines2",
+    "SerewSeekDrain",
+    "SewerSeekLower",
+    "GrumbleNestEnd",
+    "EyestalkIntro",
+    "EyestalkOutro"
 }
 
 local Character
@@ -446,6 +466,7 @@ Globals.DoorsNotify = function(NotifyOptions)
 	end)
 end
 
+Globals.STX = loadstring(game:HttpGet("https://raw.githubusercontent.com/bocaj111004/Abysall/refs/heads/main/Components/STX.luau"))()
 Functions.Notify = function(Settings)
 	local HiddenContainer = GetHiddenContainer()
 
@@ -478,6 +499,25 @@ Functions.Notify = function(Settings)
 			Image = Settings.Image,
 			Time = Settings.Time
 		})
+	elseif Options.NotifyStyle.Value == "STX" then
+		local Sound = Instance.new("Sound", HiddenContainer)
+		Sound.SoundId = "rbxassetid://4590657391"
+		Sound.Volume = (Toggles.NotifyPlaySound and Toggles.NotifyPlaySound.Value and Options.NotifySoundVolume.Value) or (Toggles.NotifyPlaySound and 0 or 3)
+		Sound.PlayOnRemove = true
+		Sound:Destroy()
+
+		if Settings.Image then
+			Globals.STX:Notify(
+				{Title = "Abysall Hub", Description = Settings.Title .. "\n" .. Settings.Body},
+				{OutlineColor = Library.Scheme.AccentColor,Time = Settings.Time or 5, Type = "image"},
+				{Image = Settings.Image, ImageColor = Color3.fromRGB(255, 255, 255)}
+			)
+		else
+			Globals.STX:Notify(
+				{Title = "Abysall Hub", Description = Settings.Title .. "\n" .. Settings.Body},
+				{OutlineColor = Library.Scheme.AccentColor,Time = Settings.Time or 5, Type = "default"}
+			)
+		end
 	else
 		local Sound = Instance.new("Sound", HiddenContainer)
 		Sound.SoundId = "rbxassetid://4590662766"
@@ -981,7 +1021,7 @@ Groupboxes.General_Character:AddToggle("NoclipToggle", {
 })
 Groupboxes.General_Character:AddToggle("RemoveClosetDelay", {
 	Text = "Remove Closet Delay", Default = false,
-	Tooltip = "Removed the short window where you can't exit out of a closet after the animation finishes."
+	Tooltip = "Removes the short window where you can't exit out of a closet after the animation finishes."
 })
 Groupboxes.General_Character:AddToggle("RemoveAcceleration", {
 	Text = "Remove Acceleration", Default = false, Tooltip = "Prevents your character from sliding while moving."
@@ -1134,6 +1174,16 @@ Groupboxes.Self_Automation:AddDropdown("AutoClosetEntityList", {
 	Text = "Ignore List",
 	Values = { "Rush", "Ambush", "Blitz", "A-60", "A-120", "AR0xMBUSH", "RNIUSHCG==" },
 	Multi = true, AllowNull = true
+})
+Groupboxes.Self_Automation:AddToggle("SpectateEntityToggle", {
+	Text = "Spectate Entity",
+	Default = false,
+	Tooltip = "Spectates the entity while auto hiding."
+})
+Groupboxes.Self_Automation:AddDropdown("SpecateEntityMode", {
+	Values = {"Player to Entity", "Entity to Player"},
+	Default = 1,
+	AllowNull = true
 })
 
 Groupboxes.Self_Misc = Tabs.General:AddRightGroupbox("Miscellaneous")
@@ -1292,7 +1342,7 @@ end)
 
 Groupboxes.Exploits_BypassRight = Tabs.Exploits:AddRightGroupbox("Bypass")
 Groupboxes.Exploits_BypassRight:AddToggle("DisableAnticheat", {
-	Text = "Disable Anticheat", Default = false,
+	Text = "Anticheat Bypass", Default = false,
 	Tooltip = "Completely disables the anticheat, after interacting with a ladder."
 })
 Groupboxes.Exploits_BypassRight:AddToggle("VelocityManipulationToggle", {
@@ -1336,11 +1386,11 @@ Groupboxes.Exploits_BypassRight:AddToggle("CrouchSpoof", {
 Toggles.PositionSpoof:OnChanged(function(Value)
 	if Floor ~= "Fools" and Floor ~= "OldHotel" then
 		if Value then
-			RootPart.CFrame = RootPart.CFrame * CFrame.new(0, -2.146, 0)
-			Humanoid.HipHeight = 0.25
+			RootPart.CFrame = RootPart.CFrame * CFrame.new(0, -2.346, 0)
+			Humanoid.HipHeight = 0.05
 			RemotesFolder.Crouch:FireServer(true)
 		else
-			RootPart.CFrame = RootPart.CFrame * CFrame.new(0, 2.146, 0)
+			RootPart.CFrame = RootPart.CFrame * CFrame.new(0, 2.346, 0)
 			Humanoid.HipHeight = 2.396
 		end
 	end
@@ -1463,7 +1513,8 @@ Groupboxes.Visuals_Camera:AddToggle("RemoveCameraBobbing", {
 	Text = "Remove Camera Bobbing", Default = false, Tooltip = "Prevents the camera from bobbing when moving.",
 	Disabled = not Functions.CheckCompatability({"require"}), DisabledTooltip = Globals.IncompatibleMessage
 })
-Groupboxes.Visuals_Camera:AddToggle("RemoveCameraFog", { Text = "Remove Camera Fog", Default = false, Tooltip = "Removes all fog effects from the camera." })
+Groupboxes.Visuals_Camera:AddToggle("RemoveCutscenes", { Text = "Remove Cutscenes", Default = false, Tooltip = "Removes all non-necessary cutscenes." })
+Groupboxes.Visuals_Camera:AddToggle("RemoveCameraFog", { Text = "Remove Fog", Default = false, Tooltip = "Removes all fog effects from the camera." })
 Groupboxes.Visuals_Camera:AddDivider()
 Groupboxes.Visuals_Camera:AddToggle("ThirdPersonToggle", { Text = "Third Person", Default = false, Tooltip = "Zooms out your camera, allowing you to see your character from behind." })
 Toggles.ThirdPersonToggle:AddKeyPicker("ThirdPersonKeybind", { Text = "Third Person", Default = "T", Mode = "Toggle", SyncToggleState = true })
@@ -1499,6 +1550,19 @@ Toggles.RemoveCameraFog:OnChanged(function(Value)
 	for _, Object in Globals.FogInstances do
 		Object.Density = Value and 0 or Object:GetAttribute("Density_Old")
 	end
+end)
+Toggles.RemoveCutscenes:OnChanged(function(Value)
+    local Cutscenes = Globals.MainUI.Initiator.Main_Game.RemoteListener.Cutscenes
+    for _, Object in pairs(Cutscenes:GetChildren()) do
+        if table.find(CutsceneNames, Object.Name) and Object:IsA("ModuleScript") or table.find(CutsceneNames, Object:GetAttribute("OriginalName")) and Object:IsA("ModuleScript") then
+            Object.Name = (Value and Object.Name .. "_Disabled" or Object:GetAttribute("OriginalName"))
+        end
+    end
+    for _, Object in pairs(FloorReplicated:GetChildren()) do
+        if table.find(CutsceneNames, Object.Name) and Object:IsA("ModuleScript") or table.find(CutsceneNames, Object:GetAttribute("OriginalName")) and Object:IsA("ModuleScript") then
+            Object.Name = (Value and Object.Name .. "_Disabled" or Object:GetAttribute("OriginalName"))
+        end
+    end
 end)
 
 Groupboxes.Visuals_Effects = Groupboxes.Visuals_LeftTab:AddTab("Effects")
@@ -1610,7 +1674,7 @@ end)
 Groupboxes.Visuals_EntitySettings:AddToggle("EntityChatToggle", { Text = "Chat Message", Default = false, Tooltip = "Sends a message in the chat when an entity spawns." })
 Groupboxes.Visuals_EntitySettings:AddInput("EntityChatMessage", { Text = "Message", Default = "spawned!", Numeric = false, Placeholder = "Message" })
 Groupboxes.Visuals_EntitySettings:AddDivider()
-Groupboxes.Visuals_EntitySettings:AddDropdown("NotifyStyle", { Text = "Notify Style", Values = { "Abysall", "Doors", "Library" }, Default = 1 })
+Groupboxes.Visuals_EntitySettings:AddDropdown("NotifyStyle", { Text = "Notify Style", Values = { "Abysall", "Doors", "STX", "Library" }, Default = 1 })
 Groupboxes.Visuals_EntitySettings:AddSlider("NotifySoundVolume", { Text = "Sound Volume", Min = 0, Max = 10, Default = 3, Rounding = 1 })
 Groupboxes.Visuals_EntitySettings:AddToggle("NotifyPlaySound", { Text = "Play Sound", Default = true, Tooltip = "Makes notifications play an alert sound." })
 Groupboxes.Visuals_EntitySettings:AddToggle("NotifyKeepNotifications", { Text = "Keep Notifications", Default = false, Tooltip = "Certain notifications will stay on screen until they are no longer needed." })
@@ -1716,7 +1780,7 @@ local ChestLabels = {
 }
 local EntityESPLabels = {
 	KeyObtainFake = "Fake Key", JeffTheKiller = "Jeff the Killer", GiggleCeiling = "Giggle",
-	GloomPile = "Gloombat Eggs", Snare = "Snare", GrumbleRig = "Grumble",
+	Snare = "Snare", GrumbleRig = "Grumble",
 	Drakobloxxer = "Drakobloxxer", Hole = "Mandrake Hole", Groundskeeper = "Groundskeeper",
 	LiveEntityBramble = "Bramble", Figure = "Figure", FigureRig = "Figure", FigureRagdoll = "Figure"
 }
@@ -1779,6 +1843,7 @@ Toggles.ChestESPToggle:OnChanged(function(Value)
 		end
 	end
 end)
+
 Options.ChestESPColor:OnChanged(function(Value)
 	for _, Object in Objects.Chests do Abysall.ESPLibrary:UpdateObjectColor(Object, Value) end
 end)
@@ -1925,6 +1990,10 @@ Groupboxes.Floors_Automation:AddToggle("RoomsAutoWalk",             { Text = "Au
 Groupboxes.Floors_Automation:AddSlider("RoomsAutoWalkPathfindTimeout", { Text = "Pathfind Timeout", Min = 0.5, Max = 3, Default = 1, Rounding = 1 })
 Groupboxes.Floors_Automation:AddToggle("RoomsAutoWalkIgnoreA60",    { Text = "Ignore A-60",      Default = false, Tooltip = "Continues to walk if entity 'A-60' is present, enables position spoof automatically." })
 Groupboxes.Floors_Automation:AddToggle("RoomsAutoWalkShowPathToggle", { Text = "Show Path",       Default = false, Tooltip = "Shows the current path of rooms auto-walk." })
+Groupboxes.Floors_Automation:AddToggle("RoomsAutoWalkSpoofFootsteps", {
+    Text = "Spoof Footsteps", Default = false, Tooltip = "Makes it appear as if your character is walking normally.",
+    Disabled = not Functions.CheckCompatability({"hookmetamethod", "newcclosure", "getnamecallmethod"}), DisabledTooltip = Globals.IncompatibleMessage
+})
 
 Toggles.RoomsAutoWalk:OnChanged(function()
 	for _, Object in Globals.RoomsNodesFolder:GetChildren() do
@@ -2099,13 +2168,14 @@ Connections.RoomsAutoWalkHandler = Services.RunService.Heartbeat:Connect(functio
 	Globals.RoomsAutoWalkActive = false
 end)
 
-local PreviousNode = nil
 Connections.RoomsHandler = CurrentRooms.ChildAdded:Connect(function(Room)
 	for _, Object in Globals.RoomsNodesFolder:GetChildren() do
 		if Object.Name == "StuckPart" then Object:Destroy() end
 	end
 
 	if Room:GetAttribute("RawName") and string.find(Room:GetAttribute("RawName"), "Eyestalk") then
+        local PreviousNode = nil
+
 		local function CreateEyestalkNode(WaypointPos)
 			local NewNode = Instance.new("Part")
 			NewNode.Size = Vector3.one
@@ -2156,12 +2226,84 @@ Connections.RoomsHandler = CurrentRooms.ChildAdded:Connect(function(Room)
 						CreateEyestalkNode(Waypoint.Position)
 						task.wait()
 					end
+                    break
 				end
 			end
 			task.wait(0.25)
 		end
 	end
 end)
+
+Groupboxes.Floors_Completion = Tabs.Floors:AddRightGroupbox("Completion")
+Groupboxes.Floors_Completion:AddButton({
+    Text = "Auto Complete Dam Seek",
+    Tooltip = "Automatically teleports to and interacts with each water pump.",
+    Func = function()
+        if LatestRoom.Value < 100 or Floor ~= "Mines" then
+            Functions.Notify({Title = "You must be in Room 200 to do this."})
+            return
+        end
+
+        local function GetNextPump()
+            local Highest = {
+                Height = -69420,
+                Object = nil
+            }
+            for _, Object in pairs(Objects.Objectives) do
+                if Object.Name == "WaterPump" and Object:GetAttribute("Abysall_Completed") ~= true then
+                    if Object.PrimaryPart and Object.PrimaryPart.Position.Y > Highest.Height then
+                        Highest.Object = Object
+                        Highest.Height = Object.PrimaryPart.Position.Y
+                    end
+                end
+            end
+            return Highest.Object
+        end
+
+        local function HandlePump(Pump)
+            local Completed = false
+            Pump:WaitForChild("Wheel").Sound.Played:Once(function()
+			    Completed = true
+				Pump:SetAttribute("Abysall_Completed", true)
+		    end)
+
+            while task.wait(0.1) do
+                Character:PivotTo(Pump:GetPivot())
+
+                local Prompt = Pump:FindFirstChild("ValvePrompt", true)
+                if Prompt then
+                    Functions.ForceFirePrompt(Prompt)
+                end
+
+                if Completed then
+                    break
+                end
+            end
+        end
+
+        Functions.Notify({Title = "Attempting to complete the valves.", Body = "Please wait."})
+        while task.wait(0.1) do
+            local Pump = GetNextPump()
+            if Pump then
+                HandlePump(Pump)
+            else
+                break
+            end
+        end
+        Functions.Notify({Title = "Successfully completed the valves."})
+    end
+})
+
+Groupboxes.Floors_Completion:AddButton({
+    Text = "Auto Complete Cringle",
+    Tooltip = "Instantly completes the quest.",
+    Func = function()
+        local TouchPart = CurrentRooms:FindFirstChild("RippleExitDoor", true)
+        if TouchPart then
+            Character:PivotTo(TouchPart:GetPivot())
+        end
+    end
+})
 
 Groupboxes.Floors_Visuals = Tabs.Floors:AddLeftGroupbox("Visuals")
 Groupboxes.Floors_Visuals:AddToggle("ShowSeekPathToggle", {
@@ -2222,7 +2364,55 @@ for ObjName, ToggleName in ObstructionNames do
 	end)
 end
 
+Groupboxes.Floors_Farming = Tabs.Floors:AddLeftGroupbox("Farming")
+Groupboxes.Floors_Farming:AddToggle("KnobFarm", {
+    Text = "Knob Farm",
+    Default = false,
+    Tooltip = "Automatically gains knobs for you, dies and revives repeatedly.",
+})
+
+Groupboxes.Floors_Farming:AddButton({
+    Text = "Start Knob Farm",
+    Tooltip = "Starts farming knobs, click this when you have enough gold.",
+    Func = function()
+        Globals.KnobFarmStarted = true
+    end
+})
+
+Toggles.KnobFarm:OnChanged(function(Value)
+    if Value then
+        Functions.Notify({Title = "Please collect some gold to earn knobs.", Body = "Click 'Start Knob Farm' when you're ready."})
+	else
+		Globals.KnobFarmStarted = false
+    end
+end)
+
+Globals.KnobFarmActive = false
+Globals.KnobFarmStarted = false
+Connections.KnobFarm = Services.RunService.Heartbeat:Connect(function()
+    local GoldCount = LocalPlayer.PlayerGui.TopbarUI.Topbar.StatsTopbarHandler.StatModules.Gold.GoldVal
+    if Toggles.KnobFarm.Value and GoldCount.Value > 0 and Globals.KnobFarmStarted then
+        if not Globals.KnobFarmActive then
+            Globals.KnobFarmActive = true
+            if Functions.CheckCompatability({"replicatesignal"}) then
+                Abysall.Environment.replicatesignal(LocalPlayer.Kill)
+            else
+                RemotesFolder.Underwater:FireServer(true)
+            end
+            while task.wait() do
+                if LocalPlayer:GetAttribute("Alive") then
+                    break
+                end
+            end
+            RemotesFolder.Statistics:FireServer()
+            task.wait(0.5)
+            Globals.KnobFarmActive = false
+        end
+    end
+end)
+
 local MainHook
+local OtherHook
 if Functions.CheckCompatability({"hookmetamethod", "newcclosure", "getnamecallmethod"}) then
 	MainHook = Abysall.Environment.hookmetamethod(game, "__namecall", Abysall.Environment.newcclosure(function(Self, ...)
 		local Args = { ... }
@@ -2246,6 +2436,15 @@ if Functions.CheckCompatability({"hookmetamethod", "newcclosure", "getnamecallme
 		end
 		return MainHook(Self, table.unpack(Args))
 	end))
+    OtherHook = Abysall.Environment.hookmetamethod(game, "__index", Abysall.Environment.newcclosure(function(Self, Property)
+        local Real = OtherHook(Self, Property)
+
+        if Property == "MoveDirection" and Self == Humanoid and Globals.RoomsAutoWalkActive and Toggles.RoomsAutoWalkSpoofFootsteps.Value and Floor == "Rooms" and not Character:GetAttribute("Hiding") then
+            return RootPart.CFrame.LookVector
+        end
+        
+        return Real
+    end))
 end
 
 if Services.ReplicatedStorage:FindFirstChild("ModulesClient") then
@@ -2389,6 +2588,23 @@ Functions.HandleCharacter = function(NewCharacter)
 		local JS = Globals.MainUI.Initiator.Main_Game.RemoteListener:FindFirstChild("Jumpscares")
 		if JS then JS.Name = "Jumpscares_Disabled" end
 	end
+    local Cutscenes = Globals.MainUI.Initiator.Main_Game.RemoteListener.Cutscenes
+    for _, Object in pairs(Cutscenes:GetChildren()) do
+        if table.find(CutsceneNames, Object.Name) and Object:IsA("ModuleScript") then
+            Object:SetAttribute("OriginalName", Object.Name)
+            if Toggles.RemoveCutscenes.Value then
+                Object.Name = Object.Name .. "_Disabled"
+            end
+        end
+    end
+    for _, Object in pairs(FloorReplicated:GetChildren()) do
+        if table.find(CutsceneNames, Object.Name) and Object:IsA("ModuleScript") then
+            Object:SetAttribute("OriginalName", Object.Name)
+            if Toggles.RemoveCutscenes.Value then
+                Object.Name = Object.Name .. "_Disabled"
+            end
+        end
+    end
 
 	CustomPhysics = PhysicalProperties.new(
 		100,
@@ -2554,9 +2770,17 @@ Functions.HandleCharacter = function(NewCharacter)
 				Globals.AutoClosetActive = true
 				Functions.ForceFirePrompt(Closet.HidePrompt)
 			end
+			if Character:GetAttribute("Hiding") then
+				if Toggles.SpectateEntityToggle.Value and Entity.PrimaryPart then
+					Globals.SpectateEntity = Entity
+				end
+			end
 		elseif Character:GetAttribute("Hiding") == true then
+			Globals.SpectateEntity = nil
 			Globals.AutoClosetActive = false
 			RemotesFolder.CamLock:FireServer()
+		else
+			Globals.SpectateEntity = nil
 		end
 		Globals.LastAutoHide = tick()
 	end)
@@ -2680,25 +2904,25 @@ Functions.HandleCharacter = function(NewCharacter)
 			end
 
 			if Character:FindFirstChild("LowerTorso") and Character.LowerTorso:FindFirstChild("Root") then
-				Character.LowerTorso.Root.C1 = Globals.OriginalC1 * CFrame.new(0, Toggles.PositionSpoof.Value and -2.146 or 0, 0)
+				Character.LowerTorso.Root.C1 = Globals.OriginalC1 * CFrame.new(0, Toggles.PositionSpoof.Value and -2.346 or 0, 0)
 			end
 
-			local SpoofY = Toggles.PositionSpoof.Value and 2.128 or 0.18
+			local SpoofY = Toggles.PositionSpoof.Value and 2.328 or 0.18
 			Collision.Position     = RootPart.Position + Vector3.new(0, SpoofY, 0)
 			CollisionPart.Position = RootPart.Position + Vector3.new(0, SpoofY, 0)
 
 			if Collision:FindFirstChild("CollisionCrouch") and CollisionClone:FindFirstChild("CollisionCrouch") then
-				local CrouchY = Toggles.PositionSpoof.Value and 1.128 or -0.982
+				local CrouchY = Toggles.PositionSpoof.Value and 1.328 or -0.982
 				Collision.CollisionCrouch.Position = RootPart.Position + Vector3.new(0, CrouchY, 0)
 				CollisionClone.CollisionCrouch.CollisionGroup = Collision.CollisionCrouch.CollisionGroup
 			end
 			if CollisionClone:FindFirstChild("CollisionCrouch") then
-				CollisionClone.CollisionCrouch.Position = RootPart.Position + Vector3.new(0, Toggles.PositionSpoof.Value and 0.55 or -0.982, 0)
+				CollisionClone.CollisionCrouch.Position = RootPart.Position + Vector3.new(0, Toggles.PositionSpoof.Value and 0.75 or -0.982, 0)
 			end
 		end
 
 		CollisionClone.CollisionGroup = Collision.CollisionGroup
-		CollisionClone.Position = RootPart.Position + Vector3.new(0, Toggles.PositionSpoof.Value and 1.55 or 0.18, 0)
+		CollisionClone.Position = RootPart.Position + Vector3.new(0, Toggles.PositionSpoof.Value and 1.75 or 0.18, 0)
 
 		if Toggles.VelocityManipulationToggle.Value then
 			Globals.ManipulateBody.Parent = RootPart
@@ -2768,6 +2992,21 @@ Functions.HandleCharacter = function(NewCharacter)
 			Part.LocalTransparencyModifier = Toggles.ThirdPersonToggle.Value and 0 or 1
 		end
 
+		if Globals.SpectateEntity and Toggles.AutoClosetToggle.Value and Toggles.SpectateEntityToggle.Value then
+			local Entity = Globals.SpectateEntity
+
+			local CamPosition
+			if Options.SpecateEntityMode.Value == "Player to Entity" then
+				CamPosition = CFrame.lookAt(Character.Head.Position, Entity.PrimaryPart.Position)
+			else
+				CamPosition = CFrame.lookAt(Entity.PrimaryPart.Position, Character.Head.Position)
+			end
+
+			Camera.CFrame = CamPosition
+		end
+
+		task.wait()
+
 		if Main_Game then
 			Main_Game.fovtarget = Options.FieldOfView.Value
 		else
@@ -2803,8 +3042,8 @@ Functions.HandleCharacter = function(NewCharacter)
 
 	task.wait(1)
 	if Toggles.PositionSpoof.Value and Floor ~= "Fools" and Floor ~= "OldHotel" then
-		RootPart.CFrame = RootPart.CFrame * CFrame.new(0, -2.146, 0)
-		Humanoid.HipHeight = 0.25
+		RootPart.CFrame = RootPart.CFrame * CFrame.new(0, -2.346, 0)
+		Humanoid.HipHeight = 0.05
 		RemotesFolder.Crouch:FireServer(true)
 	end
 
@@ -2861,7 +3100,7 @@ local AllowedInstances = {
 	MovingDoor=true, StardustPickup=true, Hole=true, Groundskeeper=true, MandrakeLive=true,
 	GardenGateButton=true, LotusPetalPickup=true, VineGuillotine=true, LiveEntityBramble=true,
 	RiftSpawn=true, ElevatorBreaker=true, RunnerNodes=true, PathLights=true, DuckBoard=true,
-	Padlock=true, EyestalkEndCutscene=true
+	Padlock=true, EyestalkEndCutscene=true, MinecartRig=true
 }
 
 Functions.HandleObject = function(Object)
@@ -2869,15 +3108,12 @@ Functions.HandleObject = function(Object)
 		return
 	end
 
-	if Object.Name ~= "TriggerEventCollision" then
-		task.wait(Object.ClassName == "ProximityPrompt" and (math.random(15, 20) / 100) or (math.random(20, 40) / 100))
-	end
-
 	for _, Room in CurrentRooms:GetChildren() do
 		if Object:IsDescendantOf(Room) then
 			Object:SetAttribute("ParentRoom", tonumber(Room.Name))
 			break
 		end
+        task.wait()
 	end
 
 	if Object.Parent == CurrentRooms then
@@ -3023,6 +3259,7 @@ Functions.HandleObject = function(Object)
 				HP.CanCollide = false
 				HP.CFrame = DoorPart.CFrame
 				HP.Name = "HighlightPart"
+				HP.Material = Enum.Material.Glass
 				HP:SetAttribute("ParentRoom", tonumber(Object.Parent.Name))
 				local W = Instance.new("WeldConstraint", HP)
 				W.Part0 = HP W.Part1 = DoorPart W.Enabled = true
@@ -3037,6 +3274,7 @@ Functions.HandleObject = function(Object)
 			HP.CanCollide = false
 			HP.CFrame = Root.CFrame
 			HP.Name = "HighlightPart"
+			HP.Material = Enum.Material.Glass
 			HP:SetAttribute("ParentRoom", tonumber(Object.Parent.Name))
 			local W = Instance.new("WeldConstraint", HP)
 			W.Part0 = HP W.Part1 = Root W.Enabled = true
@@ -3132,7 +3370,8 @@ Functions.HandleObject = function(Object)
 			end
 			task.wait()
 		end
-
+    elseif Name == "MinecartRig" then
+        Globals.Minecart = Object
 	elseif Name == "RunnerNodes" then
 		local function IsBehind(Part1, Part2)
 			local P1 = (Part1.CFrame + Part1.CFrame.LookVector).Position
@@ -3203,7 +3442,21 @@ Functions.HandleObject = function(Object)
 			if Part:IsA("BasePart") then
 				Part.CanTouch = not Toggles.BypassSeekingWall.Value
 				Part.CanCollide = not Toggles.BypassSeekingWall.Value
-			end
+
+                local Connection1 = Part:GetPropertyChangedSignal("CanTouch"):Connect(function()
+                    if Part.CanTouch == Toggles.BypassSeekingWall.Value then
+                        Part.CanTouch = not Toggles.BypassSeekingWall.Value
+                    end
+                end)
+                local Connection2 = Part:GetPropertyChangedSignal("CanCollide"):Connect(function()
+                    if Part.CanCollide == Toggles.BypassSeekingWall.Value then
+                        Part.CanCollide = not Toggles.BypassSeekingWall.Value
+                    end
+                end)
+
+                table.insert(Connections, Connection1)
+                table.insert(Connections, Connection2)
+            end
 		end
 		table.insert(Objects.Obstructions, Object)
 	elseif Name == "ChestBox" or Name == "ChestBoxLocked" then
@@ -3249,10 +3502,17 @@ Functions.HandleObject = function(Object)
 	elseif Name == "GloomPile" then
 		if Toggles.BypassGloombatEggs.Value then
 			for _, Part in Object:GetDescendants() do
-				if Part:IsA("BasePart") then Part.CanTouch = false end
+				if Part:IsA("BasePart") then Part.CanTouch = false
+
+					local Connection = Part:GetPropertyChangedSignal("CanTouch"):Connect(function()
+						if Part.CanTouch == Toggles.BypassGloombatEggs.Value then
+							Part.CanTouch = not Toggles.BypassGloombatEggs.Value
+						end
+					end)
+					table.insert(Connections, Connection)
+				end
 			end
 		end
-		if Toggles.EntityESPToggle.Value then Functions.AddESP({ Object = Object, Text = "Gloombat Eggs", Color = Options.EntityESPColor.Value }, true) end
 		table.insert(Objects.Entities, Object)
 	elseif Name == "TriggerEventCollision" and Functions.CheckCompatability({"firetouchinterest"}) then
 		if (Floor == "Fools" or Floor == "OldHotel") and Toggles.RemoveSeekTrigger.Value then
@@ -3732,12 +3992,15 @@ Functions.TriggerPrompt = function(Prompt)
 	TriggerDebounce = false
 end
 
-local LastAutoInteractFire = tick()
+Globals.LastAutoInteractFire = tick()
 Connections.AutoInteract = Services.RunService.Heartbeat:Connect(function()
 	local Active = Toggles.AutoInteractToggle.Value or Options.AutoInteractKeybind:GetState()
-	if not Active or tick() - LastAutoInteractFire <= 0.035 then return end
+    if not Active then return end
+    if tick() - Globals.LastAutoInteractFire < 1/60 then return end
 
 	for _, Prompt in Objects.Prompts do
+        if Prompt:GetAttribute("ParentRoom") and Prompt:GetAttribute("ParentRoom") ~= LocalPlayer:GetAttribute("CurrentRoom") then continue end
+
 		if Prompt.Parent and (Prompt.Parent:IsA("BasePart") or Prompt.Parent:IsA("Model")) then
 			local Distance
 			if Prompt.Parent:IsA("BasePart") then
@@ -3745,12 +4008,12 @@ Connections.AutoInteract = Services.RunService.Heartbeat:Connect(function()
 			else
 				Distance = LocalPlayer:DistanceFromCharacter(Prompt.Parent:GetPivot().Position)
 			end
-			if Distance <= Prompt.MaxActivationDistance and Prompt.Enabled then
+			if Distance <= Prompt.MaxActivationDistance and Prompt.Enabled or Distance <= Prompt.MaxActivationDistance and Prompt.Name == "LongPushPrompt" then
 				task.spawn(Functions.TriggerPrompt, Prompt)
 			end
 		end
 	end
-	LastAutoInteractFire = tick()
+    Globals.LastAutoInteractFire = tick()
 end)
 
 Connections.InfiniteItemsHandler = Services.ProximityPromptService.PromptTriggered:Connect(function(Object)
@@ -3874,7 +4137,7 @@ Connections.EntityHandler = Services.Workspace.ChildAdded:Connect(function(Entit
 	if RusherAliases[EntityData.Alias] then
 		Instance.new("Humanoid", Entity).Name = "HighlightHumanoid"
 		local Root = Entity.PrimaryPart
-		if Root then Root.Transparency = 0.99 end
+		if Root then Root.Transparency = 0.99 Root.Material = Enum.Material.Glass end
 	end
 
 	if Entity.Name == "Lookman" then
