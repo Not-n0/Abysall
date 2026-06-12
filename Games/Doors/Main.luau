@@ -3273,7 +3273,7 @@ Functions.HandleObject = function(Object)
 				HP.CanCollide = false
 				HP.CFrame = DoorPart.CFrame
 				HP.Name = "HighlightPart"
-				HP.Material = Enum.Material.Glass
+				HP.Material = Enum.Material.Air
 				HP:SetAttribute("ParentRoom", tonumber(Object.Parent.Name))
 				local W = Instance.new("WeldConstraint", HP)
 				W.Part0 = HP W.Part1 = DoorPart W.Enabled = true
@@ -3288,7 +3288,7 @@ Functions.HandleObject = function(Object)
 			HP.CanCollide = false
 			HP.CFrame = Root.CFrame
 			HP.Name = "HighlightPart"
-			HP.Material = Enum.Material.Glass
+			HP.Material = Enum.Material.Air
 			HP:SetAttribute("ParentRoom", tonumber(Object.Parent.Name))
 			local W = Instance.new("WeldConstraint", HP)
 			W.Part0 = HP W.Part1 = Root W.Enabled = true
@@ -4151,7 +4151,7 @@ Connections.EntityHandler = Services.Workspace.ChildAdded:Connect(function(Entit
 	if RusherAliases[EntityData.Alias] then
 		Instance.new("Humanoid", Entity).Name = "HighlightHumanoid"
 		local Root = Entity.PrimaryPart
-		if Root then Root.Transparency = 0.99 Root.Material = Enum.Material.Glass end
+		if Root then Root.Transparency = 0.99 Root.Material = Enum.Material.Air end
 	end
 
 	if Entity.Name == "Lookman" then
