@@ -2273,7 +2273,7 @@ Groupboxes.Floors_Completion:AddButton({
 				Pump:SetAttribute("Abysall_Completed", true)
 		    end)
 
-            while task.wait(0.1) do
+            while task.wait(0.5) do
 				if CollisionPart.Anchored then
 					continue
 				end
