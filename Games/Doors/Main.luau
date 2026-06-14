@@ -225,7 +225,6 @@ local CutsceneNames = {
     "SewerSeekLower",
     "GrumbleNestEnd",
     "EyestalkIntro",
-    "EyestalkOutro"
 }
 
 local Character
