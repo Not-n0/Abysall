@@ -3811,7 +3811,7 @@ Connections.PromptAnimationFixer1 = Services.ProximityPromptService.PromptButton
 	for _, N in ToolNames do Tool = Character:FindFirstChild(N) if Tool then break end end
 
 	if Object.Parent.Name == "CuttableVines" and not Functions.HasItem("Shears", true) or Object.Parent.Name == "Chest_Vine" and not Functions.HasItem("Shears", true) then return end
-	if Object.Parent.Name == "SkullPrompt" and not Functions.HasItem("SkeletonKey", true) then return end
+	if Object.Parent.Name == "SkullLock" and not Functions.HasItem("SkeletonKey", true) then return end
 	if Object.Parent.Name == "Lock1" and not Functions.HasItem("Lockpick", true) or Object.Parent.Name == "Lock2" and not Functions.HasItem("Lockpick", true) then return end
 	
 	if Tool and Globals.UseAnimation then
@@ -3985,7 +3985,7 @@ Functions.TriggerPrompt = function(Prompt)
 	end
 
 	if Prompt.Parent.Name == "CuttableVines" and not Functions.HasItem("Shears", true) or Prompt.Parent.Name == "Chest_Vine" and not Functions.HasItem("Shears", true) then return end
-	if Prompt.Parent.Name == "SkullPrompt" and not Functions.HasItem("SkeletonKey", true) then return end
+	if Prompt.Parent.Name == "SkullLock" and not Functions.HasItem("SkeletonKey", true) then return end
 	if Prompt.Parent.Name == "Lock1" and not Functions.HasItem("Lockpick", true) or Prompt.Parent.Name == "Lock2" and not Functions.HasItem("Lockpick", true) then return end
 
 	if Prompt.Parent.Name == "GlitchCube" and Options.AutoInteractIgnoreList.Value["Glitch Fragments"] then return end
@@ -4075,7 +4075,7 @@ Connections.InfiniteItemsHandler = Services.ProximityPromptService.PromptTrigger
 	for _, N in ToolNames do Tool = Character:FindFirstChild(N) if Tool then break end end
 
 	if Object.Parent.Name == "CuttableVines" and not Functions.HasItem("Shears", true) or Object.Parent.Name == "Chest_Vine" and not Functions.HasItem("Shears", true) then return end
-	if Object.Parent.Name == "SkullPrompt" and not Functions.HasItem("SkeletonKey", true) then return end
+	if Object.Parent.Name == "SkullLock" and not Functions.HasItem("SkeletonKey", true) then return end
 	if Object.Parent.Name == "Lock1" and not Functions.HasItem("Lockpick", true) or Object.Parent.Name == "Lock2" and not Functions.HasItem("Lockpick", true) then return end
 
 	if Tool and Globals.UseAnimation and Globals.UseAnimationBreak then
