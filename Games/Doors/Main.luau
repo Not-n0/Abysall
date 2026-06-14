@@ -47,7 +47,8 @@ local Objects = {
 	EyestalkHighlights = {},
 	SeekNodes = {},
 	SeekDuckBoards = {},
-	SeekBridges = {}
+	SeekBridges = {},
+	PathLights = {}
 }
 
 Globals.IncompatibleMessage = "Your executor doesn't support this feature."
@@ -2251,7 +2252,7 @@ Groupboxes.Floors_Completion:AddButton({
         end
 
 		local IsCutscene = false
-		local CutsceneConnection = RemotesFolder.Cutscene.OnClientEvent.OnClientEvent:Connect(function()
+		local CutsceneConnection = RemotesFolder.Cutscene.OnClientEvent:Connect(function()
 			IsCutscene = true
 			task.wait(7)
 			IsCutscene = false
@@ -3137,7 +3138,7 @@ local AllowedInstances = {
 	MovingDoor=true, StardustPickup=true, Hole=true, Groundskeeper=true, MandrakeLive=true,
 	GardenGateButton=true, LotusPetalPickup=true, VineGuillotine=true, LiveEntityBramble=true,
 	RiftSpawn=true, ElevatorBreaker=true, RunnerNodes=true, PathLights=true, DuckBoard=true,
-	Padlock=true, EyestalkEndCutscene=true, MinecartRig=true
+	Padlock=true, EyestalkEndCutscene=true, MinecartRig=true, SeekMovingNewClone=true
 }
 
 Functions.HandleObject = function(Object)
@@ -3389,8 +3390,16 @@ Functions.HandleObject = function(Object)
 		end)
 
 		table.insert(Connections, PLConn)
+		table.insert(Objects.PathLights, Object)
 		Object.Destroying:Once(function() PLConn:Disconnect() end)
-
+	elseif Object.Name == "SeekMovingNewClone" then
+		local Connection = Object.Destroying:Connect(function()
+			for _, Folder in pairs(Objects.PathLights) do
+				Folder:ClearAllChildren()
+				SeekNodesFolder:ClearAllChildren()
+			end
+		end)
+		table.insert(Connections, Connection)
 	elseif Name == "Bridge" then
 		for _, Child in Object:GetChildren() do
 			if Child.Name == "PlayerBarrier" and Child.Size.Y == 2.75 and (Child.Rotation.X == 0 or Child.Rotation.X == 180) then
