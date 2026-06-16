@@ -3006,7 +3006,7 @@ Functions.HandleCharacter = function(NewCharacter)
 		if Toggles.FlyToggle.Value then
 			Globals.FlyBody.Parent = RootPart
 			Globals.FlyBody.Velocity = Functions.GetFlyVelocity() * Options.FlySpeed.Value
-		else"
+		else
 			Globals.FlyBody.Parent = nil
 		end
 
