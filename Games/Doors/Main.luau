@@ -3000,13 +3000,13 @@ Functions.HandleCharacter = function(NewCharacter)
 		end
 
 		if Toggles.VelocityManipulationToggle.Value and Options.VelocityManipulationMode.Value == "Pivot" and Floor ~= "Fools" and Floor ~= "OldHotel" then
-			Character:PivotTo(Character:GetPivot() * CFrame.new(0, 0, 750))
+			Character:PivotTo(Camera:GetPivot() * CFrame.new(0, 0, 2560))
 		end
 
 		if Toggles.FlyToggle.Value then
 			Globals.FlyBody.Parent = RootPart
 			Globals.FlyBody.Velocity = Functions.GetFlyVelocity() * Options.FlySpeed.Value
-		else
+		else"
 			Globals.FlyBody.Parent = nil
 		end
 
