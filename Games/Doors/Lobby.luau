@@ -36,7 +36,7 @@ end
 task.wait(1)
 
 local Window = Library:CreateWindow({
-    Title = (Abysall.UILibrary == "Linoria" and "Abysall Hub - discord.gg/5jwbZcqjVF" or "Abysall Hub"),
+    Title = "Abysall Hub",
     Footer = "Abysall Hub - discord.gg/5jwbZcqjVF",
     NotifySide = "Right",
     ShowCustomCursor = false,
@@ -547,4 +547,4 @@ Library:OnUnload(function()
 end)
 
 Abysall.Interface.ApplySettingsTab(Window)
-Functions.Notify({Title = "Successfully loaded in " .. math.floor((tick() - LoadStart) * 1000) / 1000 .. " seconds."})
+Functions.Notify({ Title = "Successfully loaded in " .. math.floor((tick() - LoadStart) * 1000) / 1000 .. " seconds." , Body = "Press '" .. tostring(Options.MenuKeybind.Value) .. "' to toggle the UI."})
