@@ -4120,7 +4120,7 @@ Functions.TriggerPrompt = function(Prompt)
 
 	if (Prompt.Parent.Name == "LibraryHintPaper" or Prompt.Parent.Name == "PickupItem") and (Functions.HasItem("LibraryHintPaper") or Functions.HasItem("LibraryHintPaperHard")) then return end
 	if Prompt.Parent.Name == "AlarmClock" and Functions.HasItem("AlarmClock") then return end
-	if Prompt.Parent.Name == "KeyObtainFake" then return end
+	if Prompt.Parent.Name == "KeyObtainFake" or Prompt.Parent.Name == "TithingPlate" then return end
 
 	Functions.FirePrompt(Prompt)
 	TriggerDebounce = true
