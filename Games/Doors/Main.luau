@@ -247,6 +247,8 @@ local Drops           = Services.Workspace:FindFirstChild("Drops")
 local GameData        = Services.ReplicatedStorage:WaitForChild("GameData")
 local Floor           = GameData:WaitForChild("Floor").Value
 local LatestRoom      = GameData:WaitForChild("LatestRoom")
+local FinishedLoadingRoom = GameData:WaitForChild("FinishedLoadingRoom")
+FinishedLoadingRoom:Destroy()
 
 local function GetHiddenContainer()
 	if Functions.CheckCompatability({"gethui"}) then
@@ -1338,8 +1340,10 @@ Toggles.BypassSeekingWall:OnChanged(function(Value)
 end)
 Toggles.BypassSnare:OnChanged(function(Value)
 	for _, Object in Objects.Entities do
-		if Object.Name == "Snare" and Object:FindFirstChild("Hitbox") then
-			Object.Hitbox.CanTouch = not Value
+		if Object.Name == "Snare" then
+			for _, Part in Object:GetDescendants() do
+				if Part:IsA("BasePart") then Part.CanTouch = not Value end
+			end
 		end
 	end
 end)
@@ -3028,13 +3032,9 @@ Functions.HandleCharacter = function(NewCharacter)
 		end
 
 		if RemotesFolder:FindFirstChild("Crouch") then
-			local NeedsCrouchFire = (Toggles.SpeedBoostToggle.Value and Options.SpeedBoostSlider.Value > 6 and Floor ~= "Fools" and Floor ~= "OldHotel")
-				or (Toggles.FlyToggle.Value and Options.FlySpeed.Value > 21 and Floor ~= "Fools" and Floor ~= "OldHotel")
-			if NeedsCrouchFire then
-				local IsCrouch = Functions.IsCrouching()
-				if Toggles.CrouchSpoof.Value or Toggles.PositionSpoof.Value then IsCrouch = true end
-				RemotesFolder.Crouch:FireServer(IsCrouch, true)
-			end
+			local IsCrouch = Functions.IsCrouching()
+			if Toggles.CrouchSpoof.Value or Toggles.PositionSpoof.Value then IsCrouch = true end
+			RemotesFolder.Crouch:FireServer(IsCrouch, true)
 		end
 
 		if tick() - Globals.LastAnimationCheck > 0.1 then
@@ -3655,7 +3655,13 @@ Functions.HandleObject = function(Object)
 			Object.Void.Color = Color3.fromRGB(76, 67, 55)
 		end
 		if Toggles.EntityESPToggle.Value then Functions.AddESP({ Object = Object, Text = "Snare", Color = Options.EntityESPColor.Value }, true) end
-		if Toggles.BypassSnare.Value and Object:FindFirstChild("Hitbox") then Object.Hitbox.CanTouch = false end
+		for _, Part in Object:GetDescendants() do
+			if Part:IsA("BasePart") then Part.CanTouch = not Toggles.BypassSnare.Value end
+		end
+		local Connection = Object.DescendantAdded:Connect(function(Part)
+			if Part:IsA("BasePart") then Part.CanTouch = not Toggles.BypassSnare.Value end
+		end)
+		table.insert(Connections, Connection)
 		table.insert(Objects.Entities, Object)
 	elseif Name == "Seek_Arm" or Name == "ChandelierObstruction" then
 		for _, Part in Object:GetDescendants() do
