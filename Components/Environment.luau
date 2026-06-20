@@ -49,14 +49,14 @@ end
 Environment.Results = Results
 Environment.PrintResults = function()
 	local Executor = Environment.identifyexecutor and Environment.identifyexecutor() or "Unknown"
-	print("Test Result")
+	print("Resultado de Pruebas")
 	for _, Result in ipairs(Results) do
 		print(Result)
 		task.wait()
 	end
 	print("Executor - " .. Executor)
-	print("Tests Passed: " .. Passed .. "/" .. Tested)
-	print("Test Score: " .. math.floor((Passed / Tested) * 100 + 0.5) .. "%")
+	print("Pruebas Superadas: " .. Passed .. "/" .. Tested)
+	print("Puntuación: " .. math.floor((Passed / Tested) * 100 + 0.5) .. "%")
 end
 
 local function RunTest(Name, Test, InternalName)
@@ -66,14 +66,14 @@ local function RunTest(Name, Test, InternalName)
 	local ExecutorName = Global.identifyexecutor and Global.identifyexecutor() or "Unknown"
 	local BrokenList = BrokenFeatures[ExecutorName]
 	if BrokenList and table.find(BrokenList, Name) then
-		AddResult(Name, "❌ " .. Name .. " failed: test has been skipped", false)
+		AddResult(Name, "❌ " .. Name .. " falló: prueba omitida", false)
 		Failed = Failed + 1
 		return
 	end
 
 	local TargetGlobal = Global[Name]
 	if not TargetGlobal then
-		AddResult(Name, "❌ " .. Name .. " failed: function is nil", false)
+		AddResult(Name, "❌ " .. Name .. " falló: la función es nula", false)
 		Failed = Failed + 1
 		return
 	end
@@ -90,7 +90,7 @@ local function RunTest(Name, Test, InternalName)
 				AddResult(Name, "✅ " .. Name, true)
 				Passed = Passed + 1
 			else
-				AddResult(Name, "❌ " .. Name .. " failed: " .. tostring(Result), false)
+				AddResult(Name, "❌ " .. Name .. " falló: " .. tostring(Result), false)
 				Failed = Failed + 1
 			end
 		end
@@ -100,7 +100,7 @@ local function RunTest(Name, Test, InternalName)
 	while not Finished do
 		Time = Time + 1
 		if Time > 100 then
-			AddResult(Name, "❌ " .. Name .. " failed: test timed out", false)
+			AddResult(Name, "❌ " .. Name .. " falló: prueba agotada", false)
 			Failed = Failed + 1
 			TimedOut = true
 			break

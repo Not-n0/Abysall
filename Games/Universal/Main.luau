@@ -20,8 +20,8 @@ end
 
 Services.StarterGui:SetCore("SendNotification", {
     Title = "Abysall Hub",
-    Text = "Only DOORS is supported right now, sorry :)",
+    Text = "Solo DOORS está soportado por ahora, lo siento :)",
     Duration = 10,
-    Button1 = "Copy Discord Invite",
+    Button1 = "Copiar Invitación de Discord",
     Callback = Bindable,
 })

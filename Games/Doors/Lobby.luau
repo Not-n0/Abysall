@@ -255,31 +255,31 @@ Globals.CodesList = {
 }
 Globals.UnlockedBadges = {}
 
-Groupboxes.General_Self = Tabs.General:AddLeftGroupbox("Self")
+Groupboxes.General_Self = Tabs.General:AddLeftGroupbox("Propio")
 
 Groupboxes.General_Self:AddToggle("AutoJoinElevator", {
-    Text = "Auto Join Elevator",
+    Text = "Auto Unirse a Ascensor",
     Default = false,
-    Tooltip = "Automatically joins the selected player's elevator."
+    Tooltip = "Se une automáticamente al ascensor del jugador seleccionado."
 })
 
 Groupboxes.General_Self:AddDropdown("AutoJoinElevatorTarget", {
-    Text = "Target",
+    Text = "Objetivo",
     SpecialType = "Player",
     ExcludeLocalPlayer = true,
     Searchable = true
 })
 
-Groupboxes.General_Automation = Tabs.General:AddLeftGroupbox("Automation")
+Groupboxes.General_Automation = Tabs.General:AddLeftGroupbox("Automación")
 
 Groupboxes.General_Automation:AddToggle("CycleAchievements", {
-    Text = "Cycle Achievements",
+    Text = "Ciclar Logros",
     Default = false,
-    Tooltip = "Rapidly equips a random badge."
+    Tooltip = "Equipa rápidamente una medalla aleatoria."
 })
 
 Groupboxes.General_Automation:AddSlider("CycleAchievementsDelay", {
-    Text = "Cycle Delay",
+    Text = "Retardo de Ciclo",
     Min = 0,
     Max = 1,
     Default = 0.1,
@@ -289,12 +289,12 @@ Groupboxes.General_Automation:AddSlider("CycleAchievementsDelay", {
 
 Groupboxes.General_Automation:AddDivider()
 
-Groupboxes.General_Automation:AddButton("Redeem All Codes", function()
+Groupboxes.General_Automation:AddButton("Canjear Todos los Códigos", function()
     if Globals.RedeemingCodes then
         return
     end
 
-    Functions.Notify({Title = "Redeeming " .. #Globals.CodesList .. " codes.", Body = "Please wait."})
+    Functions.Notify({Title = "Canjeando " .. #Globals.CodesList .. " códigos.", Body = "Por favor espera."})
     Globals.RedeemingCodes = true
     for Index, Code in pairs(Globals.CodesList) do
         RemotesFolder.ShopCode:FireServer(Code)
@@ -347,10 +347,10 @@ Connections.MainConnection = Services.RunService.Heartbeat:Connect(function()
 	end
 end)
 
-Groupboxes.General_QuickPlay = Tabs.General:AddRightGroupbox("Quick Play")
+Groupboxes.General_QuickPlay = Tabs.General:AddRightGroupbox("Inicio Rápido")
 
 Groupboxes.General_QuickPlay:AddButton({
-	Text = "The Hotel",
+	Text = "El Hotel",
 	DoubleClick = false,
 	Func = function()
 		RemotesFolder.CreateElevator:FireServer({
@@ -364,7 +364,7 @@ Groupboxes.General_QuickPlay:AddButton({
 })
 
 Groupboxes.General_QuickPlay:AddButton({
-	Text = "The Mines",
+	Text = "Las Minas",
 	DoubleClick = false,
 	Func = function()
 		RemotesFolder.CreateElevator:FireServer({
@@ -378,7 +378,7 @@ Groupboxes.General_QuickPlay:AddButton({
 })
 
 Groupboxes.General_QuickPlay:AddButton({
-	Text = "The Backdoor",
+	Text = "La Puerta Trasera",
 	DoubleClick = false,
 	Func = function()
 		RemotesFolder.CreateElevator:FireServer({
@@ -392,7 +392,7 @@ Groupboxes.General_QuickPlay:AddButton({
 })
 
 Groupboxes.General_QuickPlay:AddButton({
-	Text = "The Rooms",
+	Text = "Las Habitaciones",
 	DoubleClick = false,
 	Func = function()
 		RemotesFolder.CreateElevator:FireServer({
@@ -406,7 +406,7 @@ Groupboxes.General_QuickPlay:AddButton({
 })
 
 Groupboxes.General_QuickPlay:AddButton({
-	Text = "The Outdoors",
+	Text = "El Exterior",
 	DoubleClick = false,
 	Func = function()
 		RemotesFolder.CreateElevator:FireServer({
@@ -422,7 +422,7 @@ Groupboxes.General_QuickPlay:AddButton({
 Groupboxes.General_QuickPlay:AddDivider()
 
 Groupboxes.General_QuickPlay:AddButton({
-	Text = "Battle Mode",
+	Text = "Modo Batalla",
 	DoubleClick = false,
 	Func = function()
 		RemotesFolder.CreateElevator:FireServer({
@@ -436,7 +436,7 @@ Groupboxes.General_QuickPlay:AddButton({
 })
 
 Groupboxes.General_QuickPlay:AddButton({
-	Text = "Retro Mode",
+	Text = "Modo Retro",
 	DoubleClick = false,
 	Func = function()
 		RemotesFolder.CreateElevator:FireServer({
@@ -450,7 +450,7 @@ Groupboxes.General_QuickPlay:AddButton({
 })
 
 Groupboxes.General_QuickPlay:AddButton({
-	Text = "Rush Mode",
+	Text = "Modo Rush",
 	DoubleClick = false,
 	Func = function()
 		RemotesFolder.CreateElevator:FireServer({
@@ -494,7 +494,7 @@ Groupboxes.General_QuickPlay:AddButton({
 })
 
 Groupboxes.General_QuickPlay:AddButton({
-	Text = "Super Hard Mode",
+	Text = "Modo Súper Difícil",
 	DoubleClick = false,
 	Func = function()
 		RemotesFolder.CreateElevator:FireServer({
@@ -510,7 +510,7 @@ Groupboxes.General_QuickPlay:AddButton({
 Groupboxes.General_QuickPlay:AddDivider()
 
 Groupboxes.General_QuickPlay:AddButton({
-	Text = "The Rooms [Free, No Progress]",
+	Text = "Las Habitaciones [Gratis, Sin Progreso]",
 	DoubleClick = false,
 	Func = function()
 		RemotesFolder.CreateElevator:FireServer({
@@ -526,7 +526,7 @@ Groupboxes.General_QuickPlay:AddButton({
 })
 
 Groupboxes.General_QuickPlay:AddButton({
-	Text = "The Outdoors [Free, No Progress]",
+	Text = "El Exterior [Gratis, Sin Progreso]",
 	DoubleClick = false,
 	Func = function()
 		RemotesFolder.CreateElevator:FireServer({
@@ -547,4 +547,4 @@ Library:OnUnload(function()
 end)
 
 Abysall.Interface.ApplySettingsTab(Window)
-Functions.Notify({ Title = "Successfully loaded in " .. math.floor((tick() - LoadStart) * 1000) / 1000 .. " seconds." , Body = "Press '" .. tostring(Options.MenuKeybind.Value) .. "' to toggle the UI."})
+Functions.Notify({ Title = "Cargado exitosamente en " .. math.floor((tick() - LoadStart) * 1000) / 1000 .. " segundos." , Body = "Presiona '" .. tostring(Options.MenuKeybind.Value) .. "' para abrir/cerrar la interfaz."})

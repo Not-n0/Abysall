@@ -24,8 +24,8 @@ return function()
 		end
 	end)
     if Found == true then
-    	return "Success"
+    	return "Éxito"
     else
-    	return "Not found"
+    	return "No encontrado"
     end
 end

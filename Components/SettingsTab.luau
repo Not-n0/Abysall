@@ -20,18 +20,18 @@ return function(Window)
 	local Toggles = Library.Toggles
 	local Options = Library.Options
 	
-	local SettingsTab = Window:AddTab("Settings", "settings")
-	local MenuGroup = SettingsTab:AddLeftGroupbox("Menu")
+	local SettingsTab = Window:AddTab("Configuración", "settings")
+	local MenuGroup = SettingsTab:AddLeftGroupbox("Menú")
 	
 	MenuGroup:AddToggle("KeybindMenuOpen", {
 		Default = Library.KeybindFrame.Visible,
-		Text = "Open Keybind Menu",
+		Text = "Abrir Menú de Teclas",
 		Callback = function(value)
 			Library.KeybindFrame.Visible = value
 		end,
 	})
 	MenuGroup:AddToggle("ShowCustomCursor", {
-		Text = "Custom Cursor",
+		Text = "Cursor Personalizado",
 		Default = false,
 		Callback = function(Value)
 			Library.ShowCustomCursor = Value
@@ -39,7 +39,7 @@ return function(Window)
 	})
 
 	MenuGroup:AddDropdown("UILibrary", {
-		Text = "UI Style",
+		Text = "Estilo de UI",
 		Values = {
 			"Obsidian",
 			"Linoria"
@@ -75,7 +75,7 @@ return function(Window)
 		Values = { "50%", "75%", "100%", "125%", "150%", "175%", "200%" },
 		Default = "100%",
 	
-		Text = "DPI Scale",
+		Text = "Escala de DPI",
 	
 		Callback = function(Value)
 			Value = Value:gsub("%%", "")
@@ -85,14 +85,14 @@ return function(Window)
 		end,
 	})
 	MenuGroup:AddDivider()
-	MenuGroup:AddLabel("Menu bind"):AddKeyPicker("MenuKeybind", { Default = "RightShift", NoUI = true, Text = "Menu keybind" })
+	MenuGroup:AddLabel("Tecla del Menú"):AddKeyPicker("MenuKeybind", { Default = "RightShift", NoUI = true, Text = "Tecla del menú" })
 	
-	MenuGroup:AddButton("Copy Discord Invite", function()
+	MenuGroup:AddButton("Copiar Invitación de Discord", function()
 		toclipboard("https://discord.gg/5jwbZcqjVF")
-		Library:Notify("Discord invite copied.")
+		Library:Notify("Invitación de Discord copiada.")
 	end)
 	
-	MenuGroup:AddButton("Unload", function()
+	MenuGroup:AddButton("Descargar", function()
 		Library:Unload()
 	end)
 	

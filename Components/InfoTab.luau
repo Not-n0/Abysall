@@ -27,9 +27,9 @@ return function(Window)
     local Options = Library.Options
 
     local LocalPlayer = Services.Players.LocalPlayer
-    local InfoTab = Window:AddTab("Info", "user")
+    local InfoTab = Window:AddTab("Información", "user")
 
-    local User = InfoTab:AddLeftGroupbox("User Info")
+    local User = InfoTab:AddLeftGroupbox("Info de Usuario")
 
     local ImageSize = Enum.ThumbnailSize.Size420x420
     local ImageType = Enum.ThumbnailType.HeadShot
@@ -41,19 +41,19 @@ return function(Window)
     })
 
     User:AddLabel("ID: " .. LocalPlayer.Name, true)
-    User:AddLabel("Total Executions: " .. (Abysall.TotalExecutions and Abysall.TotalExecutions or "N/A"), true)
+    User:AddLabel("Ejecuciones Totales: " .. (Abysall.TotalExecutions and Abysall.TotalExecutions or "N/A"), true)
 
-    local Changelog = InfoTab:AddRightGroupbox("Changelog")
+    local Changelog = InfoTab:AddRightGroupbox("Registro de Cambios")
     for Index, Change in pairs(LatestChangelog) do
         Changelog:AddLabel(Change, true)
     end
 
     local Name, Version = Abysall.Environment.identifyexecutor()
-    local Executor = InfoTab:AddRightGroupbox("Executor Info")
-    Executor:AddLabel("Name: " .. Name, true)
-	Executor:AddLabel("Version: " .. (Version and Version or "N/A"), true)
+    local Executor = InfoTab:AddRightGroupbox("Info del Executor")
+    Executor:AddLabel("Nombre: " .. Name, true)
+	Executor:AddLabel("Versión: " .. (Version and Version or "N/A"), true)
     Executor:AddDivider()
-    Executor:AddLabel("Test Result: ", true)
+    Executor:AddLabel("Resultado de Pruebas: ", true)
 
     for Index, Result in pairs(Abysall.Environment.Results) do
 		-- fix for veloshitty 💔
@@ -63,9 +63,9 @@ return function(Window)
         Executor:AddLabel(Result, true)
     end
 
-    local Community = InfoTab:AddLeftGroupbox("Community")
-    Community:AddButton("Copy Discord Invite", function()
+    local Community = InfoTab:AddLeftGroupbox("Comunidad")
+    Community:AddButton("Copiar Invitación de Discord", function()
 	    toclipboard("https://discord.gg/5jwbZcqjVF")
-	    Library:Notify("Discord invite copied.")
+	    Library:Notify("Invitación de Discord copiada.")
     end)
 end

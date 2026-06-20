@@ -51,7 +51,7 @@ local Objects = {
 	PathLights = {}
 }
 
-Globals.IncompatibleMessage = "Your executor doesn't support this feature."
+Globals.IncompatibleMessage = "Tu executor no soporta esta función."
 
 Functions.CheckCompatability = function(Array)
 	for _, Name in Array do
@@ -428,9 +428,9 @@ Globals.DoorsNotify = function(NotifyOptions)
 	Achievement.Name = "LiveAchievement"
 	Achievement.Visible = true
 
-	Achievement.Frame.TextLabel.Text = NotifyOptions.Style or "NOTIFICATION"
-	Achievement.Frame.Details.Title.Text = NotifyOptions.Title or "Sem Título"
-	Achievement.Frame.Details.Desc.Text = NotifyOptions.Description or "Sem Descrição"
+	Achievement.Frame.TextLabel.Text = NotifyOptions.Style or "NOTIFICACIÓN"
+	Achievement.Frame.Details.Title.Text = NotifyOptions.Title or "Sin Título"
+	Achievement.Frame.Details.Desc.Text = NotifyOptions.Description or "Sin Descripción"
 	Achievement.Frame.Details.Reason.Text = NotifyOptions.Reason or ""
 	Achievement.Frame.ImageLabel.Image = (NotifyOptions.Image ~= "" and NotifyOptions.Image) or "rbxassetid://6023426923"
 
@@ -1024,38 +1024,38 @@ local Tabs = {
 	Floors   = Window:AddTab("Floors", "earth"),
 }
 
-Groupboxes.General_Character = Tabs.General:AddLeftGroupbox("Character")
+Groupboxes.General_Character = Tabs.General:AddLeftGroupbox("Personaje")
 Groupboxes.General_Character:AddSlider("SpeedBoostSlider", {
-	Text = "Speed Boost", Min = 0, Max = 85, Default = 0, Rounding = 0, Compact = true
+	Text = "Aumento de Velocidad", Min = 0, Max = 85, Default = 0, Rounding = 0, Compact = true
 })
 Groupboxes.General_Character:AddToggle("SpeedBoostToggle", {
-	Text = "Enable Speed Boost", Default = false, Tooltip = "Increases your walkspeed by the specified amount."
+	Text = "Activar Aumento de Velocidad", Default = false, Tooltip = "Aumenta tu velocidad de caminata en la cantidad especificada."
 })
 Groupboxes.General_Character:AddToggle("FlyToggle", {
-	Text = "Fly", Default = false, Tooltip = "Allows you to freely fly around the map."
+	Text = "Volar", Default = false, Tooltip = "Te permite volar libremente por el mapa."
 })
 Toggles.FlyToggle:AddKeyPicker("FlyKeybind", {
-	Text = "Fly", Default = "F", Mode = "Toggle", SyncToggleState = true
+	Text = "Volar", Default = "F", Mode = "Toggle", SyncToggleState = true
 })
 Groupboxes.General_Character:AddSlider("FlySpeed", {
-	Text = "Fly Speed", Min = 0, Max = 100, Default = 20, Rounding = 0, Compact = true
+	Text = "Velocidad de Vuelo", Min = 0, Max = 100, Default = 20, Rounding = 0, Compact = true
 })
 Groupboxes.General_Character:AddDivider()
 Groupboxes.General_Character:AddToggle("NoclipToggle", {
-	Text = "Noclip", Default = false, Tooltip = "Allows your character to pass through solid objects."
+	Text = "Sin Colisiones", Default = false, Tooltip = "Permite que tu personaje atraviese objetos sólidos."
 })
 Groupboxes.General_Character:AddToggle("RemoveClosetDelay", {
-	Text = "Remove Closet Delay", Default = false,
-	Tooltip = "Removes the short window where you can't exit out of a closet after the animation finishes."
+	Text = "Eliminar Retardo de Armario", Default = false,
+	Tooltip = "Elimina la ventana corta donde no puedes salir de un armario después de que termine la animación."
 })
 Groupboxes.General_Character:AddToggle("RemoveAcceleration", {
-	Text = "Remove Acceleration", Default = false, Tooltip = "Prevents your character from sliding while moving."
+	Text = "Eliminar Aceleración", Default = false, Tooltip = "Evita que tu personaje patine mientras se mueve."
 })
 
 local CustomPhysics
 
 Toggles.NoclipToggle:AddKeyPicker("NoclipKeybind", {
-	Text = "Noclip", Default = "N", Mode = "Toggle", SyncToggleState = true
+	Text = "Sin Colisiones", Default = "N", Mode = "Toggle", SyncToggleState = true
 })
 Toggles.RemoveAcceleration:OnChanged(function(Value)
 	for Index, Old in PartProperties do
@@ -1065,13 +1065,13 @@ end)
 
 Groupboxes.General_Character:AddDivider()
 Groupboxes.General_Character:AddToggle("EnableCharacterJump", {
-	Text = "Enable Jumping", Default = false, Tooltip = "Allows your character to jump."
+	Text = "Activar Salto", Default = false, Tooltip = "Permite que tu personaje salte."
 })
 Groupboxes.General_Character:AddToggle("EnableCharacterSlide", {
-	Text = "Enable Sliding", Default = false, Tooltip = "Allows your character to slide."
+	Text = "Activar Deslizamiento", Default = false, Tooltip = "Permite que tu personaje se deslice."
 })
 Groupboxes.General_Character:AddToggle("InfiniteJumps", {
-	Text = "Infinite Jumps", Default = false, Tooltip = "Allows you to jump while in the air."
+	Text = "Saltos Infinitos", Default = false, Tooltip = "Te permite saltar mientras estás en el aire."
 })
 
 local OldJump = false
@@ -1093,12 +1093,12 @@ Toggles.EnableCharacterSlide:OnChanged(function(Value)
 	end
 end)
 
-Groupboxes.General_Self = Tabs.General:AddLeftGroupbox("Self")
+Groupboxes.General_Self = Tabs.General:AddLeftGroupbox("Propio")
 Groupboxes.General_Self:AddToggle("DoorReachToggle", {
-	Text = "Door Reach", Default = false, Tooltip = "Allows you to open doors from further away."
+	Text = "Alcance de Puerta", Default = false, Tooltip = "Te permite abrir puertas desde más lejos."
 })
 Groupboxes.General_Self:AddToggle("DisableIdleKick", {
-	Text = "Disable Idle Kick", Default = false, Tooltip = "Prevents the kick from being idle for 20 minutes."
+	Text = "Desactivar Patada por Inactividad", Default = false, Tooltip = "Evita la patada por estar inactivo 20 minutos."
 })
 Toggles.DisableIdleKick:OnChanged(function(Value)
 	if Functions.CheckCompatability({"getconnections"}) then
@@ -1116,13 +1116,13 @@ end)
 
 Groupboxes.General_Self:AddDivider()
 Groupboxes.General_Self:AddSlider("PromptReachSlider", {
-	Text = "Prompt Reach Multiplier", Min = 1, Max = 2, Default = 1, Rounding = 1, Compact = true
+	Text = "Multiplicador de Alcance de Interacción", Min = 1, Max = 2, Default = 1, Rounding = 1, Compact = true
 })
 Groupboxes.General_Self:AddToggle("InstantPrompts", {
-	Text = "Instant Prompts", Default = false, Tooltip = "Allows you to trigger all prompts instantly."
+	Text = "Interacciones Instantáneas", Default = false, Tooltip = "Te permite activar todas las interacciones al instante."
 })
 Groupboxes.General_Self:AddToggle("PromptClip", {
-	Text = "Prompt Clip", Default = false, Tooltip = "Allows you to interact with prompts through walls."
+	Text = "Interacción a Través de Paredes", Default = false, Tooltip = "Te permite interactuar con interacciones a través de paredes."
 })
 
 Options.PromptReachSlider:OnChanged(function(Value)
@@ -1141,13 +1141,13 @@ Toggles.PromptClip:OnChanged(function(Value)
 	end
 end)
 
-Groupboxes.Self_Automation = Tabs.General:AddRightGroupbox("Automation")
+Groupboxes.Self_Automation = Tabs.General:AddRightGroupbox("Automación")
 Groupboxes.Self_Automation:AddToggle("AutoBreakerBox", {
-	Text = "Auto Breaker Box", Default = false, Tooltip = "Automatically solves the breaker box."
+	Text = "Auto Caja de Fusibles", Default = false, Tooltip = "Resuelve automáticamente la caja de fusibles."
 })
 Groupboxes.Self_Automation:AddToggle("AutoSolveAnchors", {
-	Text = "Auto Solve Anchors", Default = false,
-	Tooltip = "Automatically enters the correct code into anchors when you are near them."
+	Text = "Auto Resolver Anclas", Default = false,
+	Tooltip = "Introduce automáticamente el código correcto en los anclajes cuando estás cerca."
 })
 Toggles.AutoBreakerBox:OnChanged(function(Value)
 	if Value and CurrentRooms:FindFirstChild("ElevatorBreaker", true) then
@@ -1162,39 +1162,39 @@ Toggles.AutoBreakerBox:OnChanged(function(Value)
 	end
 end)
 
-Groupboxes.Self_Automation:AddToggle("AutoHeartbeatMinigame", { Text = "Auto Heartbeat Minigame", Default = false, Tooltip = "Prevents the 'Figure' minigame from ever failing.", Disabled = not Functions.CheckCompatability({"getconnections"}), DisabledTooltip = Globals.DisabledTooltip })
+Groupboxes.Self_Automation:AddToggle("AutoHeartbeatMinigame", { Text = "Auto Minijuego de Latido", Default = false, Tooltip = "Evita que el minijuego de 'Figure' falle.", Disabled = not Functions.CheckCompatability({"getconnections"}), DisabledTooltip = Globals.DisabledTooltip })
 Groupboxes.Self_Automation:AddDivider()
 Groupboxes.Self_Automation:AddToggle("AutoUnlockPadlockToggle", {
-	Text = "Auto Unlock Padlock", Default = false, Tooltip = "Automatically enters the code into the library padlock."
+	Text = "Auto Desbloquear Candado", Default = false, Tooltip = "Introduce automáticamente el código en el candado de la biblioteca."
 })
 Groupboxes.Self_Automation:AddSlider("AutoUnlockPadlockSlider", {
 	Text = "Unlock Distance", Min = 1, Max = 50, Default = 10, Rounding = 0, Compact = true
 })
 Groupboxes.Self_Automation:AddToggle("AutoLibraryGuessCode", {
-	Text = "Guess Library Code", Default = false,
-	Tooltip = "Attempts to guess the library code, but collecting some books is also necessary."
+	Text = "Adivinar Código de Biblioteca", Default = false,
+	Tooltip = "Intenta adivinar el código de la biblioteca, pero también es necesario recolectar algunos libros."
 })
 Groupboxes.Self_Automation:AddDivider()
 Groupboxes.Self_Automation:AddToggle("AutoInteractToggle", {
-	Text = "Auto Interact", Default = false, Tooltip = "Automatically triggers nearby prompts."
+	Text = "Auto Interactuar", Default = false, Tooltip = "Activa automáticamente las interacciones cercanas."
 })
 Toggles.AutoInteractToggle:AddKeyPicker("AutoInteractKeybind", {
-	Text = "Auto Interact", Default = "R",
+	Text = "Auto Interactuar", Default = "R",
 	Mode = Library.IsMobile and "Toggle" or "Hold", SyncToggleState = true
 })
 Groupboxes.Self_Automation:AddDropdown("AutoInteractIgnoreList", {
-	Text = "Ignore List",
-	Values = { "Glitch Fragments", "Jeff Items", "Dropped Items", "Currency", "Minecarts", "Locks" },
+	Text = "Lista de Ignorados",
+	Values = { "Fragmentos Glitch", "Objetos Jeff", "Objetos Botados", "Moneda", "Vagonetas", "Cerraduras" },
 	Default = { "Glitch Fragments", "Jeff Items", "Dropped Items" },
 	Multi = true, AllowNull = true
 })
 Groupboxes.Self_Automation:AddDivider()
 Groupboxes.Self_Automation:AddToggle("AutoClosetToggle", {
-	Text = "Auto Closet", Default = false,
-	Tooltip = "Automatically hides in a nearby closet when an entity is near."
+	Text = "Auto Armario", Default = false,
+	Tooltip = "Se esconde automáticamente en un armario cercano cuando una entidad está cerca."
 })
 Toggles.AutoClosetToggle:AddKeyPicker("AutoClosetKeybind", {
-	Text = "Auto Closet", Default = "Q", Mode = "Toggle", SyncToggleState = true
+	Text = "Auto Armario", Default = "Q", Mode = "Toggle", SyncToggleState = true
 })
 Groupboxes.Self_Automation:AddDropdown("AutoClosetEntityList", {
 	Text = "Ignore List",
@@ -1202,34 +1202,34 @@ Groupboxes.Self_Automation:AddDropdown("AutoClosetEntityList", {
 	Multi = true, AllowNull = true
 })
 Groupboxes.Self_Automation:AddToggle("SpectateEntityToggle", {
-	Text = "Spectate Entity",
+	Text = "Espectar Entidad",
 	Default = false,
-	Tooltip = "Spectates the entity while auto hiding."
+	Tooltip = "Especta la entidad mientras te escondes automáticamente."
 })
 Groupboxes.Self_Automation:AddDropdown("SpecateEntityMode", {
-	Values = {"Player to Entity", "Entity to Player"},
+	Values = {"Jugador a Entidad", "Entidad a Jugador"},
 	Default = 1,
 	AllowNull = true
 })
 
-Groupboxes.Self_Misc = Tabs.General:AddRightGroupbox("Miscellaneous")
+Groupboxes.Self_Misc = Tabs.General:AddRightGroupbox("Misceláneo")
 Groupboxes.Self_Misc:AddButton({
-	Text = "Play Again", Tooltip = "Makes you join a new run, click again to cancel.", DoubleClick = true,
+	Text = "Jugar de Nuevo", Tooltip = "Te hace unirte a una nueva partida, haz clic de nuevo para cancelar.", DoubleClick = true,
 	Func = function() RemotesFolder.PlayAgain:FireServer() end
 })
 Groupboxes.Self_Misc:AddButton({
-	Text = "Return to Lobby", Tooltip = "Makes you teleport back to the lobby.", DoubleClick = true,
+	Text = "Volver al Lobby", Tooltip = "Te teletransporta de vuelta al lobby.", DoubleClick = true,
 	Func = function() RemotesFolder.Lobby:FireServer() end
 })
 Groupboxes.Self_Misc:AddButton({
-	Text = "Revive",
-	Tooltip = "Makes you revive, if you have a revive and haven't already revived in this run.",
+	Text = "Revivir",
+	Tooltip = "Te revive, si tienes un revive y no lo has usado ya en esta partida.",
 	DoubleClick = true,
 	Func = function() RemotesFolder.Revive:FireServer() end
 })
 Groupboxes.Self_Misc:AddButton({
-	Text = "Reset Character",
-	Tooltip = "Kills your character on the server. (takes around 20 seconds if replicatesignal isn't supported)",
+	Text = "Reiniciar Personaje",
+	Tooltip = "Mata a tu personaje en el servidor. (tarda unos 20 segundos si replicatesignal no es compatible)",
 	DoubleClick = true,
 	Func = function()
 		Globals.SelfKilled = true
@@ -1246,18 +1246,18 @@ Groupboxes.Self_Misc:AddButton({
 })
 
 Groupboxes.Exploits_Bypass = Tabs.Exploits:AddLeftGroupbox("Bypass")
-Groupboxes.Exploits_Bypass:AddToggle("BypassGiggle",         { Text = "Bypass Giggle",           Default = false, Tooltip = "Prevents 'Giggle' from attacking you." })
-Groupboxes.Exploits_Bypass:AddToggle("BypassDupe",           { Text = "Bypass Dupe",             Default = false, Tooltip = "Prevents you from open 'Dupe' fake doors." })
-Groupboxes.Exploits_Bypass:AddToggle("BypassEyes",           { Text = "Bypass Eyes",             Default = false, Tooltip = "Prevents 'Eyes' from hurting you." })
-Groupboxes.Exploits_Bypass:AddToggle("BypassLookman",        { Text = "Bypass Lookman",          Default = false, Tooltip = "Prevents 'Lookman' from hurting you." })
-Groupboxes.Exploits_Bypass:AddToggle("BypassGloombatEggs",   { Text = "Bypass Gloombat Eggs",    Default = false, Tooltip = "Prevents taking damage from stepping on 'Gloombat' eggs." })
-Groupboxes.Exploits_Bypass:AddToggle("BypassSeekObstructions", { Text = "Bypass Seek Obstructions", Default = false, Tooltip = "Prevents obstacles in the 'Seek' chase from harming you." })
-Groupboxes.Exploits_Bypass:AddToggle("BypassVacuum",         { Text = "Bypass Vacuum",           Default = false, Tooltip = "Prevents you from falling into 'Vacuum' fake doors." })
-Groupboxes.Exploits_Bypass:AddToggle("BypassKillbricks",     { Text = "Bypass Killbricks",       Default = false, Tooltip = "Prevents 'Lava' from hurting you." })
-Groupboxes.Exploits_Bypass:AddToggle("BypassSeekingWall",    { Text = "Bypass Seeking Wall",     Default = false, Tooltip = "Prevents 'ScaryWall' from hurting you." })
-Groupboxes.Exploits_Bypass:AddToggle("BypassSnare",          { Text = "Bypass Snare",            Default = false, Tooltip = "Prevents 'Snare' from trapping you." })
-Groupboxes.Exploits_Bypass:AddToggle("BypassBanana",         { Text = "Bypass Banana",           Default = false, Tooltip = "Prevents 'Banana Peel' from slipping you up (sometimes doesn't work)." })
-Groupboxes.Exploits_Bypass:AddToggle("BypassJeff",           { Text = "Bypass Jeff",             Default = false, Tooltip = "Prevents 'Jeff the Killer' from stabbing you (sometimes doesn't work)." })
+Groupboxes.Exploits_Bypass:AddToggle("BypassGiggle",         { Text = "Evitar a Giggle",           Default = false, Tooltip = "Evita que 'Giggle' te ataque." })
+Groupboxes.Exploits_Bypass:AddToggle("BypassDupe",           { Text = "Evitar a Dupe",             Default = false, Tooltip = "Evita que abras puertas falsas de 'Dupe'." })
+Groupboxes.Exploits_Bypass:AddToggle("BypassEyes",           { Text = "Evitar a Eyes",             Default = false, Tooltip = "Evita que 'Eyes' te lastime." })
+Groupboxes.Exploits_Bypass:AddToggle("BypassLookman",        { Text = "Evitar a Lookman",          Default = false, Tooltip = "Evita que 'Lookman' te lastime." })
+Groupboxes.Exploits_Bypass:AddToggle("BypassGloombatEggs",   { Text = "Evitar Huevos Gloombat",    Default = false, Tooltip = "Evita recibir daño al pisar huevos de 'Gloombat'." })
+Groupboxes.Exploits_Bypass:AddToggle("BypassSeekObstructions", { Text = "Evitar Obstáculos de Seek", Default = false, Tooltip = "Evita que los obstáculos en la persecución de 'Seek' te dañen." })
+Groupboxes.Exploits_Bypass:AddToggle("BypassVacuum",         { Text = "Evitar Vacío",           Default = false, Tooltip = "Evita que caigas en puertas falsas de 'Vacuum'." })
+Groupboxes.Exploits_Bypass:AddToggle("BypassKillbricks",     { Text = "Evitar Killbricks",       Default = false, Tooltip = "Evita que la 'Lava' te lastime." })
+Groupboxes.Exploits_Bypass:AddToggle("BypassSeekingWall",    { Text = "Evitar Pared Buscadora",     Default = false, Tooltip = "Evita que 'ScaryWall' te lastime." })
+Groupboxes.Exploits_Bypass:AddToggle("BypassSnare",          { Text = "Evitar Trampa",            Default = false, Tooltip = "Evita que 'Snare' te atrape." })
+Groupboxes.Exploits_Bypass:AddToggle("BypassBanana",         { Text = "Evitar Banana",           Default = false, Tooltip = "Evita que la 'Cáscara de Banana' te haga resbalar (a veces no funciona)." })
+Groupboxes.Exploits_Bypass:AddToggle("BypassJeff",           { Text = "Evitar a Jeff",             Default = false, Tooltip = "Evita que 'Jeff the Killer' te apuñale (a veces no funciona)." })
 
 Toggles.BypassGiggle:OnChanged(function(Value)
 	for _, Object in Objects.Entities do
